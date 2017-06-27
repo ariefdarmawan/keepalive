@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CLI",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 2345,
+            "host": "127.0.0.1",
+            "program": "/Users/ariefdarmawan/goapp/src/github.com/ariefdarmawan/keepalive/cli/main.go",
+            "env": {},
+            "args": ["-config=/Users/ariefdarmawan/goapp/src/github.com/ariefdarmawan/keepalive/cli/keepalive.conf"],
+            "showLog": true
+        }
+    ]
+}
