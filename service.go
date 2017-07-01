@@ -22,6 +22,7 @@ type Service struct {
 	Commands        map[string]Command
 	Interval        time.Duration
 	NotifyInterval  time.Duration
+	CheckAgainAfter time.Duration
 	StopNotifyAfter int
 	StopStartAfter  int
 	Active          bool
@@ -32,6 +33,8 @@ type Service struct {
 	lastCheck time.Time
 	log       *toolkit.LogEngine
 	closewg   *sync.WaitGroup
+
+	startAttempt int
 }
 
 func (s *Service) run() {
@@ -40,7 +43,9 @@ func (s *Service) run() {
 		case stop := <-s.chStop:
 			if stop {
 				s.log.Infof("Service %s has been dismissed from to be monitored", s.name)
-				s.closewg.Done()
+				if s.closewg != nil {
+					s.closewg.Done()
+				}
 				return
 			}
 
@@ -64,9 +69,28 @@ func (s *Service) StopMonitor() {
 }
 
 func (s *Service) check() {
-	if err := s.isAlive(); err != nil {
-		s.sendNotification(ServiceNotifStop, nil)
-		s.restartService()
+	if s.StopStartAfter > 0 && s.startAttempt == s.StopStartAfter {
+		time.Sleep(s.CheckAgainAfter * time.Millisecond)
+		s.startAttempt = 0
+	}
+
+	checkErrMsg := ""
+	r := s.Exec(ServiceCheck)
+	if r.Status != toolkit.Status_OK {
+		checkErrMsg = r.Message
+	} else {
+		cmd, _ := s.Commands[string(ServiceCheck)]
+		if evalid := validate(r.Data.(string), cmd.Op, cmd.Expected, cmd.CaseSensitive); evalid != nil {
+			checkErrMsg = evalid.Error()
+		}
+	}
+
+	if checkErrMsg != "" {
+		s.sendNotification(ServiceNotifStop, toolkit.M{}.Set("Message", checkErrMsg))
+		if estart := s.restartService(); estart != nil {
+			s.sendNotification(ServiceNotifFail, toolkit.M{}.Set("Message",
+				toolkit.Sprintf("Restart %d service %s fail: %s", s.startAttempt, s.name, estart.Error())))
+		}
 	}
 
 	if s.verbose {
@@ -74,22 +98,22 @@ func (s *Service) check() {
 	}
 }
 
-func (s *Service) isAlive() error {
-	r := s.Exec(ServiceCheck)
+func (s *Service) restartService() error {
+	if s.StopStartAfter > 0 && s.startAttempt == s.StopStartAfter {
+		return nil
+	}
+
+	s.startAttempt++
+	r := s.Exec(ServiceStart)
 	if r.Status != toolkit.Status_OK {
 		return toolkit.Error(r.Message)
 	}
 
-	cmd, _ := s.Commands[string(ServiceCheck)]
+	cmd, _ := s.Commands[string(ServiceStart)]
 	if evalid := validate(r.Data.(string), cmd.Op, cmd.Expected, cmd.CaseSensitive); evalid != nil {
 		return evalid
 	}
-	return nil
-}
-
-func (s *Service) restartService() error {
-	r := toolkit.NewResult()
-	s.sendNotification(ServiceNotifRestart, toolkit.M{}.Set("Result", r))
+	s.sendNotification(ServiceNotifRestart, toolkit.M{}.Set("Message", toolkit.Sprintf("%s OK", s.name)))
 	return nil
 }
 
@@ -100,8 +124,9 @@ func (s *Service) sendNotification(notittype ServiceNotifEnum, in toolkit.M) {
 
 	msg := ""
 
+	msg = in.GetString("Message")
 	if notittype == ServiceNotifStop {
-		s.log.Warningf("%s: %s", string(notittype), msg)
+		s.log.Warningf("%s %s: %s", s.name, string(notittype), msg)
 	} else if notittype == ServiceNotifFail {
 		s.log.Errorf("%s: %s", string(notittype), msg)
 	} else {
@@ -140,5 +165,5 @@ func validate(data string, op OpEnum, expected string, casesensitive bool) error
 		return nil
 	}
 
-	return toolkit.Errorf("Invalid output. Expected %s %s %s", data, string(op), expected)
+	return toolkit.Errorf("Invalid output, expecting output %s %s", string(op), expected)
 }

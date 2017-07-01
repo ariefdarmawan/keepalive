@@ -3,17 +3,18 @@ package keepalive
 import "github.com/eaciit/toolkit"
 import "sync"
 
-type CommandTypeEnum int
+type CommandTypeEnum string
 
 const (
-	CommandLine CommandTypeEnum = 0
-	CommandUrl                  = 1
+	CommandLine CommandTypeEnum = "Cmd"
+	CommandUrl                  = "Url"
 )
 
 type Context struct {
-	Port     int
-	Verbose  bool
-	Services map[string]*Service
+	Port       int
+	Verbose    bool
+	Services   map[string]*Service
+	SmtpClient *SmtpClient
 
 	ch  chan bool
 	log *toolkit.LogEngine

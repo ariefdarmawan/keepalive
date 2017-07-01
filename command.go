@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"os/exec"
 
-	"fmt"
-
 	"io/ioutil"
 
 	"github.com/eaciit/toolkit"
@@ -30,9 +28,9 @@ const (
 )
 
 type Command struct {
-	Type     CommandTypeEnum
-	Function ServiceCommandTypeEnum
-	Txt      string
+	CommandType CommandTypeEnum
+	//Function    ServiceCommandTypeEnum
+	Txt string
 
 	Op            OpEnum
 	Expected      string
@@ -40,9 +38,9 @@ type Command struct {
 }
 
 func (c *Command) Exec() *toolkit.Result {
-	if c.Type == CommandUrl {
+	if c.CommandType == CommandUrl {
 		return runRest(c.Txt, "GET", nil)
-	} else if c.Type == CommandLine {
+	} else if c.CommandType == CommandLine {
 		return runCmd(CmdToStrings(c.Txt)...)
 	}
 
@@ -92,12 +90,14 @@ func runCmd(cmds ...string) *toolkit.Result {
 	cmd.Stderr = &stderr
 	err := cmd.Run()
 	if err != nil {
-		return ret.SetErrorTxt(fmt.Sprintf("Unable to exec %s: %s", cmds[0], err.Error()))
+		//return ret.SetErrorTxt(fmt.Sprintf("Unable to exec %s: %s", cmds[0], err.Error()))
+		return ret.SetError(err)
 	}
 	outStr, errStr = string(stdout.Bytes()), string(stderr.Bytes())
 
 	if errStr != "" {
-		return ret.SetErrorTxt(fmt.Sprintf("Unable to exec %s: %s", cmds[0], errStr))
+		return ret.SetErrorTxt(errStr)
+		//return ret.SetErrorTxt(fmt.Sprintf("Unable to exec %s: %s", cmds[0], errStr))
 	}
 
 	ret.SetData(outStr)
