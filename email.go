@@ -3,6 +3,7 @@ package keepalive
 import (
 	"crypto/tls"
 	//"eaciit/gomail"
+
 	"gopkg.in/gomail.v2"
 )
 
@@ -30,12 +31,12 @@ func (s *SmtpClient) Send(msgs ...*EmailMsg) error {
 	if s.TLS {
 		// TLS config
 		tlsconfig := &tls.Config{
-			//InsecureSkipVerify: true,
-			ServerName: s.Host,
+			InsecureSkipVerify: true,
+			ServerName:         s.Host,
 		}
 		conf.TLSConfig = tlsconfig
 	}
-	conf.LocalName = s.Host
+	//conf.LocalName = s.Host
 
 	// Dialer
 	d, err := conf.Dial()
@@ -59,10 +60,14 @@ func (s *SmtpClient) Send(msgs ...*EmailMsg) error {
 		}
 		m.SetHeader("Subject", msg.Subject)
 
+		body := msg.Body + "\n"
 		if !msg.HtmlBody {
-			m.SetBody("text/plain", msg.Body)
+			//body += toolkit.Sprintf("Send timestamp: %s", toolkit.Date2String(time.Now(), "dd-MMM-yyyy hh:mm:ss"))
+			m.SetBody("text/plain", body)
 		} else {
-			m.SetBody("text/html", msg.Body)
+			//body := msg.Body + "\n<br/>"
+			//body += toolkit.Sprintf("<p>Send timestamp: %s</p>", toolkit.Date2String(time.Now(), "dd-MMM-yyyy hh:mm:ss"))
+			m.SetBody("text/html", body)
 		}
 
 		if len(msg.Attachments) > 0 {
@@ -73,63 +78,5 @@ func (s *SmtpClient) Send(msgs ...*EmailMsg) error {
 		ms = append(ms, m)
 	}
 
-	err = gomail.Send(d, ms[0])
-	ms[0].Reset()
-	return err
-}
-
-func (s *SmtpClient) send_(msgs ...*EmailMsg) error {
-	// Dialer Config
-	conf := gomail.NewDialer(s.Host, s.Port, s.UserId, s.Password)
-	if s.SSL {
-		conf.SSL = s.SSL
-	}
-	if s.TLS {
-		// TLS config
-		tlsconfig := &tls.Config{
-			//InsecureSkipVerify: true,
-			ServerName: s.Host,
-		}
-		conf.TLSConfig = tlsconfig
-	}
-	conf.LocalName = s.Host
-
-	// Dialer
-	d, err := conf.Dial()
-	if err != nil {
-		return err
-	}
-	defer d.Close()
-
-	// Message
-	var ms []*gomail.Message
-	for _, msg := range msgs {
-		m := gomail.NewMessage()
-		// Setup headers
-		m.SetHeader("From", msg.From)
-		m.SetHeader("To", msg.To...)
-		if len(msg.Bcc) > 0 {
-			m.SetHeader("Bcc", msg.Bcc...)
-		}
-		if len(msg.Cc) > 0 {
-			m.SetHeader("Cc", msg.Cc...)
-		}
-		m.SetHeader("Subject", msg.Subject)
-
-		if !msg.HtmlBody {
-			m.SetBody("text/plain", msg.Body)
-		} else {
-			m.SetBody("text/html", msg.Body)
-		}
-
-		if len(msg.Attachments) > 0 {
-			for _, v := range msg.Attachments {
-				m.Attach(v)
-			}
-		}
-		ms = append(ms, m)
-	}
-
-	err = gomail.Send(d, ms[0])
-	return err
+	return gomail.Send(d, ms...)
 }

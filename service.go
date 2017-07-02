@@ -11,6 +11,7 @@ import (
 )
 
 type ServiceNotifEnum string
+type serviceStateEnum string
 
 const (
 	ServiceNotifStop    ServiceNotifEnum = "Service Stop"
@@ -18,26 +19,40 @@ const (
 	ServiceNotifFail                     = "Service Fail"
 )
 
+const (
+	serviceIsUnknown    serviceStateEnum = ""
+	serviceIsRunning                     = "running"
+	serviceIsStopOrFail                  = "stop or fail"
+)
+
 type Service struct {
 	Commands        map[string]Command
 	Interval        time.Duration
 	NotifyInterval  time.Duration
 	CheckAgainAfter time.Duration
+	NotifyTo        []string
 	StopNotifyAfter int
 	StopStartAfter  int
 	Active          bool
 
-	name      string
-	verbose   bool
-	chStop    chan bool
-	lastCheck time.Time
-	log       *toolkit.LogEngine
-	closewg   *sync.WaitGroup
+	name              string
+	verbose           bool
+	chStop            chan bool
+	lastCheck         time.Time
+	log               *toolkit.LogEngine
+	closewg           *sync.WaitGroup
+	state             serviceStateEnum
+	lastStopNotifSent time.Time
+	lastStateChanged  time.Time
+	smtpClient        *SmtpClient
 
 	startAttempt int
 }
 
 func (s *Service) run() {
+	s.lastStopNotifSent = time.Now()
+	s.lastStateChanged = time.Now()
+
 	for {
 		select {
 		case stop := <-s.chStop:
@@ -66,6 +81,28 @@ func (s *Service) StartMonitor() {
 
 func (s *Service) StopMonitor() {
 	s.chStop <- true
+}
+
+func (s *Service) SendEmail(subject, message string) {
+	if len(s.NotifyTo) == 0 {
+		return
+	}
+
+	if s.smtpClient == nil {
+		s.log.Errorf("SMTP Client for %s is not properly configured, send email failed", s.name)
+		return
+	}
+
+	msg := new(EmailMsg)
+	msg.From = s.smtpClient.UserId
+	msg.To = s.NotifyTo
+	msg.Subject = subject
+	msg.Body = message
+
+	if e := s.smtpClient.Send(msg); e != nil {
+		s.log.Errorf("%s unable to send notification email", s.name, e.Error())
+		return
+	}
 }
 
 func (s *Service) check() {
@@ -117,7 +154,7 @@ func (s *Service) restartService() error {
 	return nil
 }
 
-func (s *Service) sendNotification(notittype ServiceNotifEnum, in toolkit.M) {
+func (s *Service) sendNotification(notiftype ServiceNotifEnum, in toolkit.M) {
 	if in == nil {
 		in = toolkit.M{}
 	}
@@ -125,12 +162,33 @@ func (s *Service) sendNotification(notittype ServiceNotifEnum, in toolkit.M) {
 	msg := ""
 
 	msg = in.GetString("Message")
-	if notittype == ServiceNotifStop {
-		s.log.Warningf("%s %s: %s", s.name, string(notittype), msg)
-	} else if notittype == ServiceNotifFail {
-		s.log.Errorf("%s: %s", string(notittype), msg)
+	if notiftype == ServiceNotifStop {
+		s.log.Warningf("%s %s: %s", s.name, string(notiftype), msg)
+	} else if notiftype == ServiceNotifFail {
+		s.log.Errorf("%s: %s", string(notiftype), msg)
 	} else {
-		s.log.Infof("%s: %s", string(notittype), msg)
+		s.log.Infof("%s: %s", string(notiftype), msg)
+	}
+
+	sendStopEmail := false
+	if notiftype == ServiceNotifStop && s.state != serviceIsStopOrFail {
+		s.state = serviceIsStopOrFail
+		s.lastStateChanged = time.Now()
+		s.lastStopNotifSent = time.Now()
+		sendStopEmail = true
+	} else if notiftype == ServiceNotifRestart {
+		s.state = serviceIsRunning
+		s.lastStateChanged = time.Now()
+	}
+
+	if sendStopEmail || (notiftype == ServiceNotifStop && time.Since(s.lastStopNotifSent) > s.NotifyInterval) {
+		go s.SendEmail(toolkit.Sprintf("%s is in Stop / Fail / Unknown state", s.name),
+			toolkit.Sprintf("Service %s has been in Stop / Fail / Unknown state for %v\n\n%s", s.name, time.Since(s.lastStateChanged), msg))
+		s.lastStopNotifSent = time.Now()
+	} else if notiftype == ServiceNotifRestart {
+		go s.SendEmail(toolkit.Sprintf("%s is started", s.name),
+			toolkit.Sprintf("Service %s has been started", s.name))
+		s.lastStopNotifSent = time.Now()
 	}
 }
 

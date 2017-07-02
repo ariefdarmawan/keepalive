@@ -21,14 +21,12 @@ func TestSendEmail(t *testing.T) {
 	s := keepalive.SmtpClient{
 		Host:     "smtp.office365.com",
 		Port:     587,
-		UserId:   "mailer@eaciit.com",
-		Password: "Ruka6309",
-		SSL:      false,
-		TLS:      false,
+		UserId:   "eaciit.support@eaciit.com",
+		Password: "Password.120",
 	}
 
 	msg := &keepalive.EmailMsg{
-		From:    "mailer@eaciit.com",
+		From:    "eaciit.support@eaciit.com",
 		To:      []string{"arief@eaciit.com"},
 		Cc:      []string{"ariefda@hotmail.com", "adarmawan.2006@gmail.com"},
 		Subject: "Send email dari KeepAlive",

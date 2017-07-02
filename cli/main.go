@@ -29,10 +29,10 @@ func main() {
 }
 
 func loadconfig() {
+	exepath, _ := os.Executable()
 	configpath := *fconfig
 	if configpath == "" {
-		configpath, _ = os.Executable()
-		configpath = filepath.Join(filepath.Dir(configpath), "keepalive.conf")
+		configpath = filepath.Join(filepath.Dir(exepath), "keepalive.conf")
 	}
 
 	bytepaths, err := ioutil.ReadFile(configpath)
@@ -52,5 +52,9 @@ func loadconfig() {
 	if err != nil {
 		log.Error(toolkit.Sprintf("Serde %s fail: %s", configpath, err.Error()))
 		os.Exit(10)
+	}
+
+	if ctx.LogPath == "" {
+		ctx.LogPath = filepath.Join(filepath.Dir(exepath), "logs")
 	}
 }
