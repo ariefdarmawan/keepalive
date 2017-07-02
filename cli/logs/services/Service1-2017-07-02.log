@@ -1,0 +1,18 @@
+INFO 2017/07/02 09:36:59 Service Service1 has been started to be monitored
+WARNING 2017/07/02 09:37:03 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 09:37:03 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 09:37:03 Service Restart: Service1 OK
+ERROR 2017/07/02 09:37:03 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 09:37:06 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 09:37:06 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 09:37:06 Service Restart: Service1 OK
+ERROR 2017/07/02 09:37:06 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 09:37:09 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 09:37:09 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 09:37:09 Service Restart: Service1 OK
+ERROR 2017/07/02 09:37:09 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 09:37:12 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 09:37:12 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 09:37:12 Service Restart: Service1 OK
+ERROR 2017/07/02 09:37:12 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 09:37:59 Service Service1 has been started to be monitored

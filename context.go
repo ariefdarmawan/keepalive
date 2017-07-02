@@ -28,9 +28,7 @@ type Context struct {
 }
 
 func (c *Context) Run() error {
-	if c.log == nil {
-		c.log, _ = toolkit.NewLog(true, true, c.LogPath, "ctx-%s.log", "yyyy-MM-dd")
-	}
+	c.log, _ = toolkit.NewLog(true, true, c.LogPath, "ctx-%s.log", "yyyy-MM-dd")
 	c.ch = make(chan bool)
 
 	c.log.Info("Initiating context")
@@ -93,5 +91,5 @@ func createFolderIfNotExist(path string) {
 		return
 	}
 
-	os.Mkdir(path, os.FileMode(0644))
+	os.Mkdir(path, os.FileMode(0766))
 }
