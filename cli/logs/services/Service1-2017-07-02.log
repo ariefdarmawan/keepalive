@@ -16,3 +16,74 @@ ERROR 2017/07/02 09:37:12 SMTP Client for Service1 is not properly configured, s
 INFO 2017/07/02 09:37:12 Service Restart: Service1 OK
 ERROR 2017/07/02 09:37:12 SMTP Client for Service1 is not properly configured, send email failed
 INFO 2017/07/02 09:37:59 Service Service1 has been started to be monitored
+INFO 2017/07/02 10:18:09 Service Service1 has been started to be monitored
+WARNING 2017/07/02 10:18:12 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:18:12 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 10:18:12 Service Restart: Service1 OK
+ERROR 2017/07/02 10:18:12 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 10:18:15 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:18:15 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 10:18:15 Service Restart: Service1 OK
+ERROR 2017/07/02 10:18:15 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 10:18:18 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:18:18 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 10:18:18 Service Restart: Service1 OK
+ERROR 2017/07/02 10:18:18 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 10:18:21 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:18:21 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 10:18:21 Service Restart: Service1 OK
+ERROR 2017/07/02 10:18:21 SMTP Client for Service1 is not properly configured, send email failed
+WARNING 2017/07/02 10:18:24 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:18:24 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 10:18:24 Service Restart: Service1 OK
+ERROR 2017/07/02 10:18:24 SMTP Client for Service1 is not properly configured, send email failed
+INFO 2017/07/02 10:19:45 Service Service1 has been started to be monitored
+WARNING 2017/07/02 10:19:48 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:19:48 Service Fail: Restart 1 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:19:51 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:19:51 Service Fail: Restart 2 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:19:54 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:19:54 Service Fail: Restart 3 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:19:57 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:19:57 Service Fail: Restart 4 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:20:00 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:20:00 Service Fail: Restart 5 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:20:13 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:20:13 Service Fail: Restart 1 service Service1 fail: Invalid output, expecting output notcontains ka
+INFO 2017/07/02 10:23:18 Service Service1 has been started to be monitored
+WARNING 2017/07/02 10:23:21 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:21 Service Fail: Restart 1 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:24 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:24 Service Fail: Restart 2 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:27 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:27 Service Fail: Restart 3 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:30 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:30 Service Fail: Restart 4 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:33 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:33 Service Fail: Restart 5 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:46 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:46 Service Fail: Restart 1 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:49 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:49 Service Fail: Restart 2 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:52 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:52 Service Fail: Restart 3 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:55 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:55 Service Fail: Restart 4 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:23:58 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:23:58 Service Fail: Restart 5 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:11 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:11 Service Fail: Restart 1 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:14 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:14 Service Fail: Restart 2 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:17 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:17 Service Fail: Restart 3 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:20 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:20 Service Fail: Restart 4 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:23 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:23 Service Fail: Restart 5 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:36 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:36 Service Fail: Restart 1 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:39 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:39 Service Fail: Restart 2 service Service1 fail: Invalid output, expecting output notcontains ka
+WARNING 2017/07/02 10:24:42 Service1 Service Stop: Unable to call http://localhost:8090/status: Get http://localhost:8090/status: dial tcp [::1]:8090: getsockopt: connection refused
+ERROR 2017/07/02 10:24:42 Service Fail: Restart 3 service Service1 fail: Invalid output, expecting output notcontains ka

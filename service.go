@@ -181,7 +181,7 @@ func (s *Service) sendNotification(notiftype ServiceNotifEnum, in toolkit.M) {
 		s.lastStateChanged = time.Now()
 	}
 
-	if sendStopEmail || (notiftype == ServiceNotifStop && time.Since(s.lastStopNotifSent) > s.NotifyInterval) {
+	if sendStopEmail || (notiftype == ServiceNotifStop && time.Since(s.lastStopNotifSent) > (s.NotifyInterval*time.Millisecond)) {
 		go s.SendEmail(toolkit.Sprintf("%s is in Stop / Fail / Unknown state", s.name),
 			toolkit.Sprintf("Service %s has been in Stop / Fail / Unknown state for %v\n\n%s", s.name, time.Since(s.lastStateChanged), msg))
 		s.lastStopNotifSent = time.Now()
